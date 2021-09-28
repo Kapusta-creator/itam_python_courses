@@ -27,13 +27,19 @@ for i in range(n):
 for i in range(n, 0, -1):
     if not tasks[i]:
         continue
-    students = sorted(examples[str(i)], key=lambda x: (x[0] + x[1], x[4]), reverse=True)
+    students = sorted(examples[str(i)], key=lambda x: (int(x[4]), x[0] + x[1]), reverse=True)
     answer[int(students[0][-1])] = i
     if len(students) > 1:
         for j in range(1, len(students)):
-            if "1" in examples:
-                examples["1"].append(students[j])
-            else:
-                examples["1"] = [students[j]]
+            flag = False
+            for k in range(i + 1, n + 1):
+                if not tasks[k]:
+                    answer[int(students[j][-1])] = k
+                    flag = True
+            if not flag:
+                if "1" in examples:
+                    examples["1"].append(students[j])
+                else:
+                    examples["1"] = [students[j]]
 for i in range(n):
-    print(answer[i] + 1, end=" ")
+    print(answer[i], end=" ")
